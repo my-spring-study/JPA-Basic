@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
 
 public class JpaMain {
 
@@ -21,14 +22,8 @@ public class JpaMain {
 
 		try {
 
-			Order order = em.find(Order.class, 1L);
-			Long memberId = order.getMemberId();
-
-			// 외래키로 다시 조회. 객체지향적이지 않다.
-			Member member = em.find(Member.class, memberId);
-
-			// 연관관계 매핑 (참조와 외래키를 매핑) 하는 방식이 객체지향적이다.
-			Member member = order.getMember();
+			Order order = new Order();
+			order.addOrderItem(new OrderItem());
 
 			tx.commit();
 		} catch (Exception e) {
