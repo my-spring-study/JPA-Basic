@@ -1,9 +1,15 @@
 package hellojpa.domain;
 
+import java.lang.management.MemoryManagerMXBean;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Team {
@@ -14,6 +20,14 @@ public class Team {
 	private Long id;
 
 	private String name;
+
+	@OneToMany(mappedBy = "team")
+	private List<Member> members = new ArrayList<>(); // 양방향 연관관계
+
+	public void addMember(Member member) {
+		member.setTeam(this);
+		this.members.add(member);
+	}
 
 	public Long getId() {
 		return id;
@@ -29,5 +43,9 @@ public class Team {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Member> getMembers() {
+		return members;
 	}
 }
