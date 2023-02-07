@@ -5,6 +5,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import hellojpa.domain.Member;
+import hellojpa.domain.Team;
+
 public class JpaMain {
 
 	public static void main(String[] args) {
@@ -20,11 +23,26 @@ public class JpaMain {
 
 		tx.begin();
 
+
 		try {
+
+			// 저장
+			Team team = new Team();
+			team.setName("team_A");
+			em.persist(team);
+
 			Member member = new Member();
-			member.setId(1L);
-			member.setName("HelloA");
+			member.setUsername("member1");
+			member.setTeam(team);
 			em.persist(member);
+
+			em.flush();
+			em.clear();
+
+			Member findMember = em.find(Member.class, member.getId());
+
+			Team findTeam = findMember.getTeam();
+			System.out.println("findTeam = " + findTeam.getName());
 
 			tx.commit();
 		} catch (Exception e) {
