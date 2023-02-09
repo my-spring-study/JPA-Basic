@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 
 import hellojpa.domain.Member;
 import hellojpa.domain.Team;
+import hellojpa.domain.item.Movie;
 
 public class JpaMain {
 
@@ -26,24 +27,19 @@ public class JpaMain {
 
 		try {
 
-			// 저장
-			Team team = new Team();
-			team.setName("team_A");
-			em.persist(team);
+			Movie movie = new Movie();
+			movie.setDirector("director1");
+			movie.setActor("actor1");
+			movie.setName("movie1");
+			movie.setPrice(10000);
 
-			Member member = new Member();
-			member.setUsername("member1");
-			em.persist(member);
-
-			team.addMember(member);
+			em.persist(movie);
 
 			em.flush();
 			em.clear();
 
-			Member findMember = em.find(Member.class, member.getId());
-
-			Team findTeam = findMember.getTeam();
-			System.out.println("findTeam = " + findTeam.getName());
+			Movie findMovie = em.find(Movie.class, movie.getId());
+			System.out.println("findMovie.getName() = " + findMovie.getName());
 
 			tx.commit();
 		} catch (Exception e) {
