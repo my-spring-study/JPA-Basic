@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
 
 	@Id
 	@GeneratedValue
