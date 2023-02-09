@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.order;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,8 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import jpabook.jpashop.domain.common.BaseEntity;
+import jpabook.jpashop.domain.item.Item;
+
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
 	@Id
 	@GeneratedValue

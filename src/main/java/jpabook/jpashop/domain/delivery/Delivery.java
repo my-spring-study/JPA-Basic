@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.delivery;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import jpabook.jpashop.domain.order.Order;
+import jpabook.jpashop.domain.common.BaseEntity;
+
 @Entity
-public class Delivery {
+public class Delivery extends BaseEntity {
 
 	@Id
 	@GeneratedValue

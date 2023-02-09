@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import jpabook.jpashop.domain.common.BaseEntity;
+
 @Entity
-public class Category {
+public class Category extends BaseEntity {
 
 	@Id
 	@GeneratedValue

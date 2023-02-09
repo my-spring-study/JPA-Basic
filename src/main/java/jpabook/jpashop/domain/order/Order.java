@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.order;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,9 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import jpabook.jpashop.domain.common.BaseEntity;
+import jpabook.jpashop.domain.delivery.Delivery;
+import jpabook.jpashop.domain.member.Member;
+
 @Entity
 @Table(name = "Orders")
-public class Order {
+public class Order extends BaseEntity {
 
 	@Id
 	@GeneratedValue

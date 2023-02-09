@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package jpabook.jpashop.domain.member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import jpabook.jpashop.domain.order.Order;
+import jpabook.jpashop.domain.common.BaseEntity;
+
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue
