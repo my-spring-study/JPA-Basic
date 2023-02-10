@@ -1,4 +1,4 @@
-package hellojpa.domain;
+package hellojpa.domain.type;
 
 import java.time.LocalDateTime;
 

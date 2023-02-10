@@ -1,7 +1,5 @@
 package hellojpa.domain;
 
-import java.lang.management.MemoryManagerMXBean;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import hellojpa.domain.type.BaseEntity;
+
 @Entity
-public class Team extends BaseEntity{
+public class Team extends BaseEntity {
 
 	@Id
 	@GeneratedValue

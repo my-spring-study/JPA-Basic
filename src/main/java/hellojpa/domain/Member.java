@@ -1,6 +1,9 @@
 package hellojpa.domain;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,8 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import hellojpa.domain.type.Address;
+import hellojpa.domain.type.BaseEntity;
+import hellojpa.domain.type.Period;
+
 @Entity
-public class Member extends BaseEntity{
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue
@@ -18,6 +25,20 @@ public class Member extends BaseEntity{
 
 	@Column(name = "USERNAME")
 	private String username;
+
+	@Embedded
+	private Period workPeriod;
+
+	@Embedded
+	private Address homeAddress;
+
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "city", column = @Column(name = "COMPANY_CITY")),
+		@AttributeOverride(name = "street", column = @Column(name = "COMPANY_STREET")),
+		@AttributeOverride(name = "zipcode", column = @Column(name = "COMPANY_ZIPCODE")),
+	})
+	private Address companyAddress; // 한 엔티티에 같은 임베디드 타입을 중복해서 사용하는 경우는 드물다.
 
 	@ManyToOne
 	@JoinColumn(name = "TEAM_ID")
@@ -49,5 +70,13 @@ public class Member extends BaseEntity{
 
 	public void setTeam(Team team) {
 		this.team = team;
+	}
+
+	public void setWorkPeriod(Period workPeriod) {
+		this.workPeriod = workPeriod;
+	}
+
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
 	}
 }
