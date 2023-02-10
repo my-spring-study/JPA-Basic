@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -21,7 +20,7 @@ public class Parent {
 
 	private String name;
 
-	@OneToMany(mappedBy = "parent", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Child> childList = new ArrayList<>();
 
 	public void addChild(Child child) {
@@ -43,5 +42,9 @@ public class Parent {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Child> getChildList() {
+		return childList;
 	}
 }

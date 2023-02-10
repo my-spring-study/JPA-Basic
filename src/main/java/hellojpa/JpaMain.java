@@ -36,7 +36,15 @@ public class JpaMain {
 			parent.addChild(child1);
 			parent.addChild(child2);
 
-			em.persist(parent); // child1, child2 도 CASCADE에 의해 영속화.
+			em.persist(parent);
+			em.persist(child1);
+			em.persist(child2);
+
+			em.flush();
+			em.clear();
+
+			Parent findParent = em.find(Parent.class, parent.getId());
+			findParent.getChildList().remove(0);
 
 			tx.commit();
 		} catch (Exception e) {
