@@ -28,14 +28,22 @@ public class JpaMain {
 
 		tx.begin();
 
-
 		try {
+			Address homeAddress = new Address("city", "street", "zipcode");
 
 			Member member = new Member();
-			member.setHomeAddress(new Address("city", "street", "zipcode"));
+			member.setHomeAddress(homeAddress);
 			member.setWorkPeriod(new Period());
 
 			em.persist(member);
+
+			em.flush();
+			em.clear();
+
+			// 불변 객체의 값을 수정할 수 없으므로 새 객체를 생성하여 값을 수정한다.
+			Member findMember = em.find(Member.class, member.getId());
+			Address newHomeAddress = new Address("new City", homeAddress.getStreet(), homeAddress.getZipcode());
+			findMember.setHomeAddress(newHomeAddress);
 
 			tx.commit();
 		} catch (Exception e) {

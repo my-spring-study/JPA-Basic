@@ -1,10 +1,13 @@
 package hellojpa.domain;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,11 +43,11 @@ public class Member extends BaseEntity {
 	})
 	private Address companyAddress; // 한 엔티티에 같은 임베디드 타입을 중복해서 사용하는 경우는 드물다.
 
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "TEAM_ID")
 	private Team team;
 
-	@OneToOne
+	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "LOCKER_ID", unique = true)
 	private Locker locker;
 
