@@ -1,5 +1,7 @@
 package jpabook.jpashop.domain.delivery;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import jpabook.jpashop.domain.order.Order;
 import jpabook.jpashop.domain.common.BaseEntity;
+import jpabook.jpashop.domain.order.Order;
 
 @Entity
 public class Delivery extends BaseEntity {
@@ -19,7 +21,7 @@ public class Delivery extends BaseEntity {
 	@Column(name = "DELIVERY_ID")
 	private Long id;
 
-	@OneToOne(mappedBy = "delivery")
+	@OneToOne(mappedBy = "delivery", fetch = LAZY)
 	private Order order;
 
 	private String city;
