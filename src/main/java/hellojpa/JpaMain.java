@@ -7,6 +7,8 @@ import javax.persistence.Persistence;
 
 import hellojpa.domain.Member;
 import hellojpa.domain.Team;
+import hellojpa.domain.cascade.Child;
+import hellojpa.domain.cascade.Parent;
 import hellojpa.domain.item.Movie;
 
 public class JpaMain {
@@ -27,12 +29,14 @@ public class JpaMain {
 
 		try {
 
-			Member member = new Member();
-			member.setCreatedBy("kim");
-			em.persist(member);
+			Child child1 = new Child();
+			Child child2 = new Child();
 
-			em.flush();
-			em.clear();
+			Parent parent = new Parent();
+			parent.addChild(child1);
+			parent.addChild(child2);
+
+			em.persist(parent); // child1, child2 도 CASCADE에 의해 영속화.
 
 			tx.commit();
 		} catch (Exception e) {
