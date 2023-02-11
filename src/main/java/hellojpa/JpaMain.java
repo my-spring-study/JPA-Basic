@@ -1,5 +1,9 @@
 package hellojpa;
 
+import java.beans.FeatureDescriptor;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -29,23 +33,49 @@ public class JpaMain {
 		tx.begin();
 
 		try {
-			Address homeAddress = new Address("city", "street", "zipcode");
 
 			Member member = new Member();
-			member.setHomeAddress(homeAddress);
-			member.setWorkPeriod(new Period());
+			member.setUsername("member1");
+			member.setHomeAddress(new Address("homeCity", "street", "zipcode"));
+
+			member.getFavoriteFoods().add("치킨");
+			member.getFavoriteFoods().add("족발");
+			member.getFavoriteFoods().add("피자");
+
+			member.getAddressHistory().add(new Address("old1", "street", "zipcode"));
+			member.getAddressHistory().add(new Address("old2", "street", "zipcode"));
 
 			em.persist(member);
 
 			em.flush();
 			em.clear();
 
-			// 불변 객체의 값을 수정할 수 없으므로 새 객체를 생성하여 값을 수정한다.
 			Member findMember = em.find(Member.class, member.getId());
-			Address newHomeAddress = new Address("new City", homeAddress.getStreet(), homeAddress.getZipcode());
-			findMember.setHomeAddress(newHomeAddress);
+			
+			List<Address> addressHistory = findMember.getAddressHistory();
+			for (Address address : addressHistory) {
+				System.out.println("address.getCity() = " + address.getCity()); // SELECT 쿼리 발생 (값 타입 컬렉션은 기본이 지연 로딩)
+			}
+
+			Set<String> favoriteFoods = findMember.getFavoriteFoods();
+			for (String favoriteFood : favoriteFoods) {
+				System.out.println("favoriteFood = " + favoriteFood);
+			}
+
+			// 임베디드 값 수정
+			Address homeAddress = findMember.getHomeAddress();
+			findMember.setHomeAddress(new Address("newCity", homeAddress.getStreet(), homeAddress.getZipcode()));
+
+			// 기본값 타입 컬렉션 수정
+			findMember.getFavoriteFoods().remove("치킨");
+			findMember.getFavoriteFoods().add("한식");
+
+			// 임베디드 값 타입 컬렉션 수정
+			findMember.getAddressHistory().remove(new Address("old1", "street", "zipcode"));
+			findMember.getAddressHistory().add(new Address("new1", "street", "zipcode"));
 
 			tx.commit();
+
 		} catch (Exception e) {
 			tx.rollback();
 		} finally {

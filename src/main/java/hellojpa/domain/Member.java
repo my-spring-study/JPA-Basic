@@ -2,12 +2,18 @@ package hellojpa.domain;
 
 import static javax.persistence.FetchType.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -42,6 +48,15 @@ public class Member extends BaseEntity {
 		@AttributeOverride(name = "zipcode", column = @Column(name = "COMPANY_ZIPCODE")),
 	})
 	private Address companyAddress; // 한 엔티티에 같은 임베디드 타입을 중복해서 사용하는 경우는 드물다.
+
+	@ElementCollection
+	@CollectionTable(name = "FAVORITE_FOODS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+	@Column(name = "FOOD_NAME")
+	private Set<String> favoriteFoods = new HashSet<>();
+
+	@ElementCollection
+	@CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+	private List<Address> addressHistory = new ArrayList<>();
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "TEAM_ID")
@@ -79,7 +94,19 @@ public class Member extends BaseEntity {
 		this.workPeriod = workPeriod;
 	}
 
+	public Address getHomeAddress() {
+		return homeAddress;
+	}
+
 	public void setHomeAddress(Address homeAddress) {
 		this.homeAddress = homeAddress;
+	}
+
+	public Set<String> getFavoriteFoods() {
+		return favoriteFoods;
+	}
+
+	public List<Address> getAddressHistory() {
+		return addressHistory;
 	}
 }
