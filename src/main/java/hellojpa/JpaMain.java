@@ -1,6 +1,5 @@
 package hellojpa;
 
-import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Set;
 
@@ -10,12 +9,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import hellojpa.domain.Member;
-import hellojpa.domain.Team;
-import hellojpa.domain.cascade.Child;
-import hellojpa.domain.cascade.Parent;
-import hellojpa.domain.item.Movie;
 import hellojpa.domain.type.Address;
-import hellojpa.domain.type.Period;
+import hellojpa.domain.type.AddressEntity;
 
 public class JpaMain {
 
@@ -42,8 +37,8 @@ public class JpaMain {
 			member.getFavoriteFoods().add("족발");
 			member.getFavoriteFoods().add("피자");
 
-			member.getAddressHistory().add(new Address("old1", "street", "zipcode"));
-			member.getAddressHistory().add(new Address("old2", "street", "zipcode"));
+			member.getAddressHistory().add(new AddressEntity("old1", "street", "zipcode"));
+			member.getAddressHistory().add(new AddressEntity("old2", "street", "zipcode"));
 
 			em.persist(member);
 
@@ -51,28 +46,10 @@ public class JpaMain {
 			em.clear();
 
 			Member findMember = em.find(Member.class, member.getId());
-			
-			List<Address> addressHistory = findMember.getAddressHistory();
-			for (Address address : addressHistory) {
-				System.out.println("address.getCity() = " + address.getCity()); // SELECT 쿼리 발생 (값 타입 컬렉션은 기본이 지연 로딩)
-			}
 
-			Set<String> favoriteFoods = findMember.getFavoriteFoods();
-			for (String favoriteFood : favoriteFoods) {
-				System.out.println("favoriteFood = " + favoriteFood);
-			}
-
-			// 임베디드 값 수정
-			Address homeAddress = findMember.getHomeAddress();
-			findMember.setHomeAddress(new Address("newCity", homeAddress.getStreet(), homeAddress.getZipcode()));
-
-			// 기본값 타입 컬렉션 수정
-			findMember.getFavoriteFoods().remove("치킨");
-			findMember.getFavoriteFoods().add("한식");
-
-			// 임베디드 값 타입 컬렉션 수정
-			findMember.getAddressHistory().remove(new Address("old1", "street", "zipcode"));
-			findMember.getAddressHistory().add(new Address("new1", "street", "zipcode"));
+			// // 임베디드 값 타입 컬렉션 수정
+			// findMember.getAddressHistory().remove(new Address("old1", "street", "zipcode"));
+			// findMember.getAddressHistory().add(new Address("new1", "street", "zipcode"));
 
 			tx.commit();
 

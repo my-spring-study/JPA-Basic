@@ -1,5 +1,6 @@
 package hellojpa.domain;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -18,9 +20,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import hellojpa.domain.type.Address;
+import hellojpa.domain.type.AddressEntity;
 import hellojpa.domain.type.BaseEntity;
 import hellojpa.domain.type.Period;
 
@@ -54,9 +58,13 @@ public class Member extends BaseEntity {
 	@Column(name = "FOOD_NAME")
 	private Set<String> favoriteFoods = new HashSet<>();
 
-	@ElementCollection
-	@CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
-	private List<Address> addressHistory = new ArrayList<>();
+	// @ElementCollection
+	// @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+	// private List<Address> addressHistory = new ArrayList<>();
+
+	@OneToMany(cascade = ALL, orphanRemoval = true)
+	@JoinColumn(name = "MEMBER_ID")
+	private List<AddressEntity> addressHistory = new ArrayList<>();
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "TEAM_ID")
@@ -106,7 +114,11 @@ public class Member extends BaseEntity {
 		return favoriteFoods;
 	}
 
-	public List<Address> getAddressHistory() {
+	public List<AddressEntity> getAddressHistory() {
 		return addressHistory;
+	}
+
+	public void setAddressHistory(List<AddressEntity> addressHistory) {
+		this.addressHistory = addressHistory;
 	}
 }
