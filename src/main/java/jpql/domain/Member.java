@@ -35,6 +35,11 @@ public class Member {
 	public Member() {
 	}
 
+	public void changeTeam(Team team) {
+		this.team = team;
+		team.getMembers().add(this);
+	}
+
 	public void addOrder(Order order) {
 		this.orders.add(order);
 		order.setMember(this);
@@ -72,10 +77,6 @@ public class Member {
 		return team;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-
 	@Override
 	public String toString() {
 		return "Member{" +
@@ -83,5 +84,6 @@ public class Member {
 			", username='" + username + '\'' +
 			", age=" + age +
 			'}';
+
 	}
 }

@@ -25,11 +25,6 @@ public class Team {
 	public Team() {
 	}
 
-	public void addMember(Member member) {
-		this.members.add(member);
-		member.setTeam(this);
-	}
-
 	public Long getId() {
 		return id;
 	}
